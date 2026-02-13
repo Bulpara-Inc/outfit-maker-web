@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OutfitMaker - Try on any outfit, instantly</title>
+    <meta name="description" content="See yourself in any outfit instantly. Upload a selfie, describe an outfit, and AI generates a photorealistic image of you wearing it in seconds.">
+    <meta property="og:title" content="OutfitMaker - Try on any outfit, instantly">
+    <meta property="og:description" content="AI-powered virtual try-on. See yourself in any outfit in seconds.">
+    <meta property="og:image" content="/screenshots/feature_graphic.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="/playstore-icon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .nav-brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: #D4A053; }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #D4A053, #B8860B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #999;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #fff;
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 160, 83, 0.3);
+        }
+
+        .cta-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Screenshots */
+        .screenshots {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 3rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        .phone-frame {
+            flex-shrink: 0;
+            width: 220px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid #222;
+        }
+
+        .phone-frame img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Features */
+        .features {
+            padding: 5rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #fff;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 5rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .pricing-card {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .pricing-card.premium {
+            border-color: #D4A053;
+            position: relative;
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #D4A053, #B8860B);
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+        }
+
+        .pricing-card h3 {
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #888;
+        }
+
+        .pricing-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .pricing-features li {
+            color: #aaa;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pricing-features li::before {
+            content: "\2713";
+            color: #D4A053;
+            font-weight: 700;
+        }
+
+        /* CTA bottom */
+        .bottom-cta {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .bottom-cta h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .bottom-cta p {
+            color: #888;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #1a1a1a;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: #D4A053; }
+
+        .footer-copy {
+            color: #444;
+            font-size: 0.8rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .screenshots { gap: 1rem; padding: 2rem 1rem; }
+            .phone-frame { width: 160px; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .nav-links { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="nav-brand">
+            <img src="/playstore-icon.png" alt="OutfitMaker">
+            OutfitMaker
+        </a>
+        <div class="nav-links">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Try on any outfit, <span>instantly.</span></h1>
+        <p>Upload a selfie, describe any outfit, and see yourself wearing it in seconds. Powered by AI.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.bulpara.aioutfitmaker" class="cta-button">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+            Get it on Google Play
+        </a>
+    </section>
+
+    <section class="screenshots">
+        <div class="phone-frame"><img src="/screenshots/screenshot1.png" alt="OutfitMaker home screen" loading="lazy"></div>
+        <div class="phone-frame"><img src="/screenshots/screenshot4.png" alt="OutfitMaker result screen" loading="lazy"></div>
+        <div class="phone-frame"><img src="/screenshots/screenshot5.png" alt="OutfitMaker history" loading="lazy"></div>
+    </section>
+
+    <section class="features">
+        <h2>How it works</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">&#128247;</div>
+                <h3>Upload a selfie</h3>
+                <p>Take a photo or pick one from your gallery. Any full-body or upper-body shot works.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#9998;</div>
+                <h3>Describe your outfit</h3>
+                <p>Type any outfit you can imagine, or pick from preset styles like Casual, Formal, Streetwear, and more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#9889;</div>
+                <h3>See it in seconds</h3>
+                <p>AI generates a photorealistic image of you wearing the outfit in about 9 seconds. Save, share, or try another.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing">
+        <h2>Simple pricing</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Free</h3>
+                <div class="pricing-price">$0</div>
+                <ul class="pricing-features">
+                    <li>10 outfit generations</li>
+                    <li>Standard resolution</li>
+                    <li>Last 10 in history</li>
+                    <li>Ad-supported</li>
+                </ul>
+            </div>
+            <div class="pricing-card premium">
+                <div class="pricing-badge">MOST POPULAR</div>
+                <h3>Premium</h3>
+                <div class="pricing-price">$7.99 <span>/month</span></div>
+                <ul class="pricing-features">
+                    <li>Unlimited generations</li>
+                    <li>High-res output (1080p)</li>
+                    <li>Unlimited history</li>
+                    <li>No ads</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="bottom-cta">
+        <h2>Ready to try it on?</h2>
+        <p>Download OutfitMaker and see yourself in any outfit.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.bulpara.aioutfitmaker" class="cta-button">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 0 1 0 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.8 8.99l-2.302 2.302-8.634-8.634z"/></svg>
+            Get it on Google Play
+        </a>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="https://play.google.com/store/apps/developer?id=Bulpara+Inc">More by Bulpara</a>
+        </div>
+        <p class="footer-copy">&copy; 2025 Bulpara Inc. All rights reserved.</p>
+    </footer>
+</body>
+</html>
